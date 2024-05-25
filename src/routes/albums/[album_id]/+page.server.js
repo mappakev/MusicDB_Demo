@@ -1,4 +1,5 @@
 import db from "$lib/db.js"
+import { onMount } from 'svelte';
 
 export async function load({ params }) {
 

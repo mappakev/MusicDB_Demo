@@ -1,9 +1,15 @@
 <script>
-  import axios from 'axios';
+  import axios from "axios";
+  import { onMount } from "svelte";
+  import { writable } from "svelte/store";
+  import { accessToken } from 'routes/+page.svelte';
+
   export let data;
-  
   let artist = data.artist;
 
+ 
+
+  // Update Artist
   function updateArtist() {
     axios
       .put("/api/artists/" + artist._id, artist)
@@ -34,3 +40,5 @@
   <input class="form-control" id="origin" bind:value={artist.origin} />
 </div>
 <button class="btn btn-primary" on:click={updateArtist}>Update</button>
+
+<button class="btn btn-primary" on:click={loadArtist}>Load Artist</button>

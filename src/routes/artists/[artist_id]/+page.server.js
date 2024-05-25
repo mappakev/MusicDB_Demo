@@ -1,4 +1,6 @@
 import db from "$lib/db.js"
+import { onMount } from 'svelte';
+
 
 export async function load({ params }) {
 
@@ -6,3 +8,4 @@ export async function load({ params }) {
         artist: db.getArtist(params.artist_id)
     };
 }
+
