@@ -1,23 +1,69 @@
-<h1>Home</h1>
-<h2>This is the start page</h2>
-<p>
-  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-  ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-  parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
-  pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec
-  pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
-  rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-  mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
-  nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
-  consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra
-  quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.
-  Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur
-  ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus,
-  tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing
-  sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit
-  id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
-  libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-  faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec
-  sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit
-  cursus nunc,
-</p>
+<script>
+    import { page } from "$app/stores";
+    import { onMount } from "svelte";
+    import { writable } from "svelte/store";
+
+    // Create a writable store to hold the access token
+    export const accessToken = writable("");
+
+    let tokenValue;
+    let userData = null;
+    // Subscribe to the store and assign its value to the local variable
+    accessToken.subscribe((value) => {
+        tokenValue = value;
+    });
+
+    onMount(() => {
+        let fragmentParams = new URLSearchParams(
+            window.location.hash.substr(1),
+        );
+        let token = fragmentParams.get("access_token");
+
+        // Set the value of the access token in the store
+        accessToken.set(token);
+
+        // Make an API call to the Spotify API
+        async function callSpotifyAPI() {
+            const response = await fetch("https://api.spotify.com/v1/me", {
+                headers: {
+                    Authorization: "Bearer " + tokenValue,
+                },
+            });
+
+            userData = await response.json();
+        }
+
+        callSpotifyAPI();
+    });
+
+    let fullUrl = $page.url;
+
+    //Login Infos
+    const CLIENT_ID = "b49b7b25a1fc4dc08600d5a92c91a88a";
+    const REDIRECT_URI = "http://localhost:5173";
+    const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+    const RESPONSE_TYPE = "token";
+</script>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>My Spotify Profile</title>
+        <script src="src/script.js" type="module"></script>
+    </head>
+    <body>
+        <h1>Your personal music database</h1>
+        <a
+            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+            class="btn btn-primary">Log in with Spotify</a
+        >
+
+        <p>Current URL: {fullUrl}</p>
+        {#if userData}
+            <h1>Welcome, {userData.display_name}!</h1>
+            <p>Your Spotify ID is {userData.id}.</p>
+        {:else}
+            <p>Loading...</p>
+        {/if}
+    </body>
+</html>

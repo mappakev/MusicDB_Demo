@@ -24,6 +24,16 @@
           <li class="nav-item">
             <a class="nav-link" href="/albums">Albums</a>
           </li>
+          <li class="nav-item">
+            <form class="search">
+
+              <label for="search_music">Search music</label>
+              <input name ="search_music" type="text"/>
+              <button>Search</button>
+            </form>
+          </li>  
+
+
         </ul>
       </div>
     </div>
@@ -32,3 +42,10 @@
 <div class="container mt-3">
   <slot />
 </div>
+
+<style>
+  button {
+    color: rgb(50, 18, 155);
+  }
+
+</style>

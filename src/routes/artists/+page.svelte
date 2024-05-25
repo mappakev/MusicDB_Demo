@@ -1,8 +1,10 @@
+
 <script>
   import axios from "axios";
   import { invalidateAll } from "$app/navigation";
   export let data;
-  
+ 
+
   function deleteArtist(id) {
     axios
       .delete("/api/artists/" + id)
@@ -17,7 +19,7 @@
       });
   }
 </script>
-
+<!---
 <h1>List of all Artists</h1>
 <a href="/artists/create">+ Add Artist</a>
 <table class="table">
@@ -44,7 +46,8 @@
           {artist.origin}
         </td>
         <td>
-          <button class="btn btn-danger"
+          <button
+            class="btn btn-danger"
             on:click={() => {
               deleteArtist(artist._id);
             }}>X</button
@@ -54,3 +57,21 @@
     {/each}
   </tbody>
 </table>
+--->
+
+<div class="artists-list">
+  {#each data.artists as artist}
+    <h2>
+      <a href={"/artists/" + artist._id}>
+        {artist.name}
+      </a>
+      ({artist.origin})
+      <button
+        class="btn btn-danger"
+        on:click={() => {
+          deleteArtist(artist._id);
+        }}>X</button
+      >
+    </h2>
+  {/each}
+</div>
