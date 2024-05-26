@@ -2,8 +2,12 @@
   import axios from "axios";
   import { getContext } from 'svelte';
   import { passToken } from '../../store.js';
+  import { writable } from "svelte/store";
 
   console.log(passToken);
+
+  
+
 
   export let artistData = null;
   export let data;

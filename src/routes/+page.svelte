@@ -34,7 +34,7 @@
   });
 
 
-  passToken.set("kein");
+  
 
  
   onMount(async () => {
@@ -54,13 +54,13 @@
 
     if (response.ok) {
       userData = await response.json();
-      setContext('token', tokenValue);
+      passToken.set(tokenValue);
     } else {
       console.log("Error:", response.status, response.statusText);
     }
   });
 
-  //passToken.set(tokenValue);
+
   console.log(passToken);
   
   //Login Infos
@@ -103,6 +103,8 @@
       });
   }
 
+
+  let test = "fad"
 
 </script>
 
@@ -152,8 +154,10 @@
   </form>
 </div>
 
-<p id="tokenValue">{accessToken}</p>
+<p id="tokenValue">Token = {tokenValue}</p>
 
 
 
 <ArtistCard {artistData} {artist}/>
+
+
