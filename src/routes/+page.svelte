@@ -2,13 +2,17 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
+  import ArtistCard from "$lib/components/ArtistCard.svelte";
   import axios from "axios";
+
+
 
   // Create a writable store to hold the access token
   export const accessToken = writable("");
 
+
   let tokenValue;
-  let artistData = null; // This will hold the artist data
+  export let artistData = null; // This will hold the artist data
   let artistName = ""; // This will hold the value from the search field
   let userData = null;
 
@@ -133,37 +137,4 @@
   </form>
 </div>
 
-{#if artistData}
-  <div class="card my-4">
-    <div class="card-body">
-      <h2 class="card-title">{artistData.artists.items[0].name}</h2>
-      <p class="card-text">
-        Followers: {artistData.artists.items[0].followers.total}
-      </p>
-
-      <p class="card-text">Genres:</p>
-      <ul>
-        {#each artistData.artists.items[0].genres as genre}
-          <li>{genre}</li>
-        {/each}
-      </ul>
-      <p class="card-text">
-        <a href={artistData.artists.items[0].external_urls.spotify}
-          >Link to Artist Page</a
-        >
-      </p>
-      <!-- svelte-ignore a11y-img-redundant-alt -->
-      <img src={artistData.artists.items[0].images[1].url} alt="Artist Image" />
-    </div>
-  </div>
-
-  <button on:click={addArtist} type="button" class="btn btn-primary">
-    Add Artist
-  </button>
-{:else}
-  <div class="d-flex justify-content-center">
-    <div class="spinner-border" role="status">
-      <span class="sr-only"></span>
-    </div>
-  </div>
-{/if}
+<ArtistCard {artistData} {artist}/>
