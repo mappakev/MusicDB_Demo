@@ -68,40 +68,82 @@
     }
 </script>
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>My Spotify Profile</title>
-        <script src="src/script.js" type="module"></script>
-    </head>
-    <body>
-        <h1>Your personal music database</h1>
-        <a
-            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-            class="btn btn-primary">Log in with Spotify</a
-        >
+<head>
+    <meta charset="utf-8" />
+    <title>My Spotify Profile</title>
+    <script src="src/script.js" type="module"></script>
+</head>
 
-        {#if userData}
-            <h1>Welcome, {userData.display_name}!</h1>
-            <p>Your Spotify ID is {userData.id}.</p>
-        {:else}
-            <p>Loading...</p>
-        {/if}
-    </body>
+<div class="container">
+    <h1 class="my-4 text-center">Your personal music database</h1>
 
-    <h2>Search for a artist</h2>
+    <div class="card my-4">
+        <div class="card-body">
+            {#if userData}
+                <h5 class="card-title">Welcome, kevmappa!</h5>
+                <p class="card-text">Your Spotify ID is theb022.</p>
+            {:else}
+                <p>Loading...</p>
+            {/if}
+        </div>
+    </div>
 
-    <input
-        type="text"
-        bind:value={artistName}
-        placeholder="Enter artist name"
-    />
-    <button on:click={loadArtist}>Search Artist</button>
+    <a
+        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+        class="btn btn-primary">Log in with Spotify</a
+    >
+</div>
 
-    {#if artistData}
-        <h1>{artistData.artists.items[0].name}</h1>
-        <p>Followers: {artistData.artists.items[0].followers.total}</p>
-    {:else}
-        <p>Loading...</p>
-    {/if}
-</html>
+<div class="container">
+    <h1 class="my-4 text-center">Search for a artist</h1>
+
+    <form class="my-4">
+        <div class="input-group">
+            <input
+                bind:value={artistName}
+                type="text"
+                class="form-control"
+                placeholder="Enter artist name"
+            />
+            <button on:click={loadArtist} class="btn btn-primary"
+                >Search Artist</button
+            >
+        </div>
+    </form>
+</div>
+
+{#if artistData}
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="card-title">{artistData.artists.items[0].name}</h2>
+            <p class="card-text">
+                Followers: {artistData.artists.items[0].followers.total}
+            </p>
+         
+
+            <p class="card-text">
+                Genres: 
+                <ul>
+                    {#each artistData.artists.items[0].genres as genre}
+                        <li>{genre}</li>
+                    {/each}
+                </ul>
+
+           
+
+                <!-- svelte-ignore a11y-img-redundant-alt -->
+                <img src={artistData.artists.items[0].images[1].url} alt="Artist Image">
+        
+        </div>
+    </div>
+
+    <!-----<button on:click={addArtist} class="btn btn-primary"
+                >add Artist</button--->
+            
+{:else}
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+{/if}

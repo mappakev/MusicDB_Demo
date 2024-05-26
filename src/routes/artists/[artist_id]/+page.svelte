@@ -1,8 +1,6 @@
 <script>
   import axios from "axios";
-  import { onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import { accessToken } from 'routes/+page.svelte';
+
 
   export let data;
   let artist = data.artist;
@@ -41,4 +39,4 @@
 </div>
 <button class="btn btn-primary" on:click={updateArtist}>Update</button>
 
-<button class="btn btn-primary" on:click={loadArtist}>Load Artist</button>
+

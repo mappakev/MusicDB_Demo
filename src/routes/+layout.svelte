@@ -19,7 +19,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="/artists">Artists</a>
+            <a class="nav-link" href="/artists/">Artists</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/albums">Albums</a>
