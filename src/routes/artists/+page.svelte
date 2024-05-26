@@ -1,4 +1,3 @@
-
 <script>
   import axios from "axios";
   import { invalidateAll } from "$app/navigation";
@@ -59,19 +58,24 @@
 </table>
 --->
 
-<div class="artists-list">
-  {#each data.artists as artist}
-    <h2>
+
+
+
+<div class="container">
+  <ul class="list-group">
+    {#each data.artists as artist}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href={"/artists/" + artist._id}>
         {artist.name}
       </a>
-      ({artist.origin})
-      <button
-        class="btn btn-danger"
-        on:click={() => {
-          deleteArtist(artist._id);
-        }}>X</button
-      >
-    </h2>
-  {/each}
+      <span class="badge bg-primary rounded-pill">{artist.origin}</span>
+      <button type="button" class="btn btn-danger" on:click={() => {
+        deleteArtist(artist._id);
+      }}>
+      Löschen
+      </button>
+    </li>
+    <!-- Wiederholen Sie das obige <li> Element für jeden Künstler in Ihrer Liste -->
+      {/each}
+  </ul>
 </div>

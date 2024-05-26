@@ -70,13 +70,8 @@
       console.log("Error:", response.status, response.statusText);
     }
 
-
     artist.name = artistData.artists.items[0].name;
-
   }
-
-
- 
 
   function addArtist() {
     axios
@@ -104,8 +99,10 @@
   <div class="card my-4">
     <div class="card-body">
       {#if userData}
-        <h5 class="card-title">Welcome, kevmappa!</h5>
-        <p class="card-text">Your Spotify ID is theb022.</p>
+        <h5 class="card-title">Hello {userData.display_name}</h5>
+        <p class="card-text">Your Spotify ID is {userData.id}.</p>
+
+        <a href={userData.external_urls.spotify}>Jump to Spotify</a>
       {:else}
         <p>Loading...</p>
       {/if}
@@ -150,7 +147,11 @@
           <li>{genre}</li>
         {/each}
       </ul>
-
+      <p class="card-text">
+        <a href={artistData.artists.items[0].external_urls.spotify}
+          >Link to Artist Page</a
+        >
+      </p>
       <!-- svelte-ignore a11y-img-redundant-alt -->
       <img src={artistData.artists.items[0].images[1].url} alt="Artist Image" />
     </div>
@@ -159,8 +160,6 @@
   <button on:click={addArtist} type="button" class="btn btn-primary">
     Add Artist
   </button>
-
-
 {:else}
   <div class="d-flex justify-content-center">
     <div class="spinner-border" role="status">
