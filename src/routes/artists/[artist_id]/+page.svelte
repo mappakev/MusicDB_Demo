@@ -1,11 +1,48 @@
 <script>
   import axios from "axios";
+  import { getContext } from 'svelte';
+  import { passToken } from '../../store.js';
 
+  console.log(passToken);
 
+  export let artistData = null;
   export let data;
   let artist = data.artist;
 
- 
+
+  let apiToken;
+
+
+  passToken.subscribe((value) => {
+    apiToken = value;
+  });
+
+  console.log(artist.name);
+  console.log(apiToken);
+
+  async function loadArtistInfos() {
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${artist.name}&type=artist`,
+      {
+        headers: {
+          Authorization: "Bearer " + apiToken,
+        },
+      },
+    );
+
+    if (response.ok) {
+      artistData = await response.json();
+
+    
+    } else {
+      console.log("Error:", response.status, response.statusText);
+     
+    }
+
+
+
+    
+  }
 
   // Update Artist
   function updateArtist() {
@@ -22,7 +59,7 @@
   }
 </script>
 
-<h1>Artist (ID: {artist._id})</h1>
+<h1>Artist (ID: {artist.name})</h1>
 <a href="/artists">Back</a>
 <!-- <div class="mt-3">
   <p>Name: {artist.name}</p>
@@ -40,3 +77,11 @@
 <button class="btn btn-primary" on:click={updateArtist}>Update</button>
 
 
+
+<button on:click={loadArtistInfos} class="btn btn-primary"
+        >Load Infos</button
+      >
+
+    
+
+      <p>{apiToken}</p>

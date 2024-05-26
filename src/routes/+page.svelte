@@ -2,6 +2,11 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
+  import { setContext } from 'svelte';
+
+  import { passToken } from './store.js';
+
+
   import ArtistCard from "$lib/components/ArtistCard.svelte";
   import axios from "axios";
 
@@ -9,6 +14,8 @@
 
   // Create a writable store to hold the access token
   export const accessToken = writable("");
+
+
 
 
   let tokenValue;
@@ -26,6 +33,10 @@
     tokenValue = value;
   });
 
+
+  passToken.set("kein");
+
+ 
   onMount(async () => {
     let fragmentParams = new URLSearchParams(window.location.hash.substr(1));
     let token = fragmentParams.get("access_token");
@@ -43,13 +54,15 @@
 
     if (response.ok) {
       userData = await response.json();
+      setContext('token', tokenValue);
     } else {
       console.log("Error:", response.status, response.statusText);
     }
   });
 
-  let fullUrl = $page.url;
-
+  //passToken.set(tokenValue);
+  console.log(passToken);
+  
   //Login Infos
   const CLIENT_ID = "b49b7b25a1fc4dc08600d5a92c91a88a";
   const REDIRECT_URI = "http://localhost:5173";
@@ -89,6 +102,8 @@
         alert(error);
       });
   }
+
+
 </script>
 
 <head>
@@ -136,5 +151,9 @@
     </div>
   </form>
 </div>
+
+<p id="tokenValue">{accessToken}</p>
+
+
 
 <ArtistCard {artistData} {artist}/>
