@@ -3,6 +3,8 @@
   import { getContext } from 'svelte';
   import { passToken } from '../../store.js';
   import { writable } from "svelte/store";
+  import ArtistAlbum from "$lib/components/ArtistAlbum.svelte";
+  import ArtistCard from "$lib/components/ArtistCard.svelte";
 
   console.log(passToken);
 
@@ -12,6 +14,9 @@
   export let artistData = null;
   export let data;
   let artist = data.artist;
+  let artistID;
+
+  export let artistAlbums;
 
 
   let apiToken;
@@ -36,17 +41,37 @@
 
     if (response.ok) {
       artistData = await response.json();
+      artistID = artistData.artists.items[0].id
 
+      console.log(artistID)
+      loadAlbums();
     
     } else {
       console.log("Error:", response.status, response.statusText);
      
     }
 
-
-
-    
   }
+
+
+
+  async function loadAlbums() {
+            const response = await fetch(
+            `https://api.spotify.com/v1/artists/${artistID}/albums`,
+            {
+              headers: {
+                Authorization: "Bearer " + apiToken,
+              },
+            },
+          );
+
+
+          if (response.ok) {
+            artistAlbums = await response.json();
+          }else{
+            console.log("Error:", response.status, response.statusText);
+          }
+        }
 
   // Update Artist
   function updateArtist() {
@@ -80,12 +105,10 @@
 </div>
 <button class="btn btn-primary" on:click={updateArtist}>Update</button>
 
-
-
 <button on:click={loadArtistInfos} class="btn btn-primary"
-        >Load Infos</button
-      >
-
-    
-
+        >Load Albums</button>
       <p>{apiToken}</p>
+
+
+<ArtistAlbum {artistAlbums}/>
+

@@ -33,9 +33,6 @@
     tokenValue = value;
   });
 
-
-  
-
  
   onMount(async () => {
     let fragmentParams = new URLSearchParams(window.location.hash.substr(1));
