@@ -134,7 +134,7 @@
 </div>
 
 <div class="container">
-  <h1 class="my-4 text-center">Search for a artist</h1>
+  <h1 class="my-4 text-center">Search for an artist</h1>
 
   <form class="my-4">
     <div class="input-group">
@@ -151,7 +151,7 @@
   </form>
 </div>
 
-<p id="tokenValue">Token = {tokenValue}</p>
+<!-----<p id="tokenValue">Token = {tokenValue}</p>-->
 
 
 

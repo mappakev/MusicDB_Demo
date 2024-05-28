@@ -107,7 +107,7 @@
 
 <button on:click={loadArtistInfos} class="btn btn-primary"
         >Load Albums</button>
-      <p>{apiToken}</p>
+      <!---<p>{apiToken}</p>--->
 
 
 <ArtistAlbum {artistAlbums}/>
